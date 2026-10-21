@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>WebDev</title>
+
+    <link rel="icon" type="image/svg+xml" href="LOGO.svg">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!--Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;600&family=Prata&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .bg {
+            min-height: 100vh;
+            background: rgba(255, 0, 85, 0.3)
+        }
+
+        /*Sizes of the cards*/
+        .left-card {
+            min-height: 400px;
+        }
+
+        .left-card-below {
+            min-height: 100px;
+        }
+
+        .left-card-bottom {
+            min-height: 150px;
+        }
+
+        .horizontal-card {
+            min-height: 100px;
+        }
+
+        .three-card {
+            min-height: 290px;
+        }
+
+        .three-card-below {
+            min-height: 260px;
+        }
+
+        /*cards design & hovers*/
+        .bento-card {
+            position: relative;
+            overflow: hidden;
+            background-color: rgba(254, 251, 251, 0.95);
+            border: 1.5px solid rgba(207, 73, 117, 0.55);
+            border-radius: 24px;
+            box-shadow: 0 0 12px rgba(207, 73, 117, 0.35), 0 4px 20px rgba(207, 73, 117, 0.12);
+            height: 100%;
+            transition: transform 0.3s ease-in, box-shadow 0.3s ease-in, border-color 0.3s ease-in;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(207, 73, 117, 0.12);
+            border-color: #CF4975;
+        }
+
+        .bento-card.bento-card-static:hover {
+            transform: none;
+            box-shadow: 0 0 12px rgba(207, 73, 117, 0.35), 0 4px 20px rgba(207, 73, 117, 0.12);
+            ;
+            border-color: rgba(207, 73, 117, 0.55);
+        }
+
+        .bento-text {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #CF4975;
+            margin-bottom: 0.4rem;
+        }
+
+        .bento-title {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-weight: 600;
+            line-height: 1.15;
+            margin: 0;
+        }
+
+        .bento-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+
+        .bento-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.6s ease;
+        }
+
+        .bento-card:hover .bento-img {
+            transform: scale(1.06);
+        }
+
+        .bento-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.25rem;
+            background: linear-gradient(to top, rgba(207, 73, 117, 0.6) 0%, transparent 55%);
+        }
+
+        .bento-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+        }
+
+        .bento-title-pink {
+            color: #C05C72;
+            font-size: 30px;
+        }
+
+        .bento-desc {
+            font-size: 13px;
+            color: #64555B;
+        }
+
+        .bento-chip {
+            padding: 5px 12px;
+            background-color: #fff;
+            border: 1.5px solid rgba(207, 73, 117, 0.18);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #CF4975;
+        }
+
+        .bento-title-pink-dark {
+            color: #A63258;
+            font-size: 1.5rem;
+        }
+
+        .bento-title-pink-light {
+            color: #E25D87;
+            font-style: italic;
+        }
+
+        .bento-card-bg {
+            background-color: #FFD9DE;
+        }
+
+        .bento-center {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .bento-card-sunset {
+            background: linear-gradient(135deg, #A63258 0%, #E25D87 30%, #FF8E72 65%, #FFB26B 100%);
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .bento-diary {
+            font-family: 'Montserrat', sans-serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.45;
+            color: #fff;
+            margin: 0;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .bento-caption {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            padding: 2rem 1rem 0.75rem;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #fff;
+            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .bento-date {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            padding: 4px 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #fff;
+            background-color: rgba(255, 0, 140, 0.35);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+            border-radius: 50px;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="bg">
+
+    <div class="container-fluid p-3">
+        <div class="row">
+
+            <!-- Left column (5/12) with nested rows -->
+            <div class="col-12 col-lg-5">
+                <div class="row">
+
+                    <!-- Upper tall card -->
+                    <div class="col-12 p-1">
+                        <div class="bento-card left-card">
+                            <img class="bento-img" src="assets/images/UBox.jpg" alt="UBox">
+                            <span class="bento-date">Oct 9, 2026</span>
+                            <div class="bento-overlay">
+                                <h1 class="bento-title display-4">URANOPHILE.</h1>
+                                <span class="bento-label">Skies cradle my wandering heart</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Middle box -->
+                    <div class="col-12 p-1">
+                        <div class="bento-card bento-card-static bento-card-sunset left-card-below">
+                            <div class="bento-content">
+                                <p class="bento-diary">
+                                    Every sky in this collection holds a memory, capturing quiet moments
+                                    lived beneath an ever-changing horizon. Each photograph
+                                    is my way of archiving pieces of my life written across the clouds.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--1 Bottom box -->
+                    <div class="col-6 p-1">
+                        <div class="bento-card left-card-bottom ">
+                            <img class="bento-img" src="assets/images/1BBox1.jpg" alt="1BBox1">
+                            <span class="bento-date">Aug 1, 2026</span>
+                            <span class="bento-caption">Sun pierces haze.</span>
+                        </div>
+                    </div>
+                    <!--2 Bottom box -->
+                    <div class="col-6 p-1">
+                        <div class="bento-card left-card-bottom ">
+                            <img class="bento-img" src="assets/images/2BBox2.jpg" alt="2BBox2">
+                            <span class="bento-date">Jun 28, 2026</span>
+                            <span class="bento-caption">Moon peeks through.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right column (7/12) -->
+            <div class="col-12 col-lg-7">
+                <div class="row">
+
+                    <!-- 1 Top horizontal card -->
+                    <div class="col-12 col-md-6 p-1">
+                        <div class="bento-card bento-card-static horizontal-card">
+                            <div class="bento-content">
+                                <span class="bento-text">Web Development Project</span>
+                                <h2 class="bento-title bento-title-pink mb-1">Bento Box Gallery</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2 Top horizontal card -->
+                    <div class="col-12 col-md-6 p-1">
+                        <div class="bento-card bento-card-static bento-card-bg horizontal-card ">
+                            <div class="bento-content bento-center">
+                                <h2 class="bento-title bento-title-pink-dark">
+                                    There is always<br>
+                                    a reason to <span class="bento-title-pink-light">look up.</span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Three boxes middle -->
+                    <!-- Box 1 -->
+                    <div class="col-6 col-md-4 p-1">
+                        <div class="bento-card three-card ">
+                            <img class="bento-img" src="assets/images/MBox1.jpg" alt="MBox1">
+                            <span class="bento-date">Jul 7, 2026</span>
+                            <span class="bento-caption">City meets twilight.</span>
+                        </div>
+                    </div>
+
+                    <!-- Box 2 -->
+                    <div class="col-6 col-md-4 p-1">
+                        <div class="bento-card three-card ">
+                            <img class="bento-img" src="assets/images/MBox2.jpg" alt="MBox2">
+                            <span class="bento-date">Aug 1, 2026</span>
+                            <span class="bento-caption">Ocean meets heavens.</span>
+                        </div>
+                    </div>
+
+                    <!-- Box 3 -->
+                    <div class="col-12 col-md-4 p-1">
+                        <div class="bento-card three-card ">
+                            <img class="bento-img" src="assets/images/MBox3.jpg" alt="MBox3">
+                            <span class="bento-date">Aug 4, 2026</span>
+                            <span class="bento-caption">Waves kiss shore.</span>
+                        </div>
+                    </div>
+
+                    <!-- Three boxes bottom -->
+                    <!-- Box 1 -->
+                    <div class="col-6 col-md-3 p-1 order-2 order-md-1">
+                        <div class="bento-card three-card-below ">
+                            <img class="bento-img" src="assets/images/BBox1.jpg" alt="BBox1">
+                            <span class="bento-date">May 4, 2026</span>
+                            <span class="bento-caption">Framed by leaves.</span>
+                        </div>
+                    </div>
+
+                    <!-- Box 2 -->
+                    <div class="col-12 col-md-6 p-1 order-1 order-md-2">
+                        <div class="bento-card three-card-below ">
+                            <img class="bento-img" src="assets/images/BBox2.jpg" alt="BBox2">
+                            <span class="bento-date">July 23, 2026</span>
+                            <span class="bento-caption">Golden hour palms.</span>
+                        </div>
+                    </div>
+
+                    <!-- Box 3 -->
+                    <div class="col-6 col-md-3 p-1 order-3 order-md-3">
+                        <div class="bento-card three-card-below ">
+                            <img class="bento-img" src="assets/images/BBox3.jpg" alt="BBox3">
+                            <span class="bento-date">May 5, 2026</span>
+                            <span class="bento-caption">Dusk and silhouettes.</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
