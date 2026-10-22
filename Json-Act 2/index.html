@@ -19,7 +19,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
             object-fit: cover;
             z-index: -2;
@@ -31,7 +31,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
             background: rgba(0, 0, 0, 0.5);
             z-index: -1;
@@ -54,7 +54,7 @@
         .weapon-card {
             background: rgba(28, 14, 28, 0.75);
             border: 1px solid rgba(255, 42, 127, 0.35);
-            border-radius: 4px;
+            border-radius: 30px;
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             position: relative;
@@ -82,14 +82,6 @@
 
         .weapon-card:hover::before {
             opacity: 1;
-        }
-
-        .weapon-img-wrapper {
-            height: 160px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
         }
 
         .weapon-card img {
@@ -132,7 +124,7 @@
             background: rgba(28, 14, 28, 0.6);
             border: 1px solid rgba(255, 42, 127, 0.35);
             padding: 6px 14px;
-            border-radius: 30px;
+            border-radius: 15px;
             backdrop-filter: blur(10px);
         }
 
@@ -153,12 +145,87 @@
             font-weight: 700;
         }
 
+        .weapon-wrapper {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .weapon-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.65));
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            z-index: 2;
+        }
+
+        .weapon-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.04);
+            transition: opacity 0.45s ease, transform 0.45s ease;
+            z-index: 1;
+        }
+
+        .weapon-card:hover .weapon-img {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .weapon-card:hover .weapon-video {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 3;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin: 10px 0;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-val {
+            font-size: 0.8rem;
+            color: #ffd54a;
+            font-weight: 600;
+        }
+
         @media (min-width: 768px) {
             .title-serif {
                 font-size: 5.5rem;
             }
         }
-
     </style>
 </head>
 
@@ -170,7 +237,7 @@
     </div>
 
     <!-- Background video -->
-    <video class="bg-video" autoplay muted loop playsinline>
+    <video id="bg-video" class="bg-video" autoplay loop playsinline>
         <source src="assets/video/bg.mp4" type="video/mp4">
     </video>
 
@@ -184,7 +251,9 @@
     </main>
 
     <!--Cards -->
-    <div class="row justify-content-center g-4" id="weapon-list"></div>
+    <div class="container my-5">
+        <div class="row justify-content-center g-4" id="weapon-list"></div>
+    </div>
 
     <script>
         const aerisData = {
@@ -196,9 +265,10 @@
                     "price": "2,375 VP",
                     "levels": "4 Upgrade Levels",
                     "image": "assets/images/vandal.webp",
-                    "bg": "#2b1424",
-                    "color": "#ffa3d7",
-                    "border": "#ff007f"
+                    "video": "assets/video/v-vandal.mp4",
+                    "fireRate": "9.75 rounds/sec",
+                    "magSize": "25 rounds",
+                    "headDamage": "160 DMG"
                 },
                 {
                     "id": 2,
@@ -207,9 +277,10 @@
                     "price": "2,375 VP",
                     "levels": "4 Upgrade Levels",
                     "image": "assets/images/bandit.webp",
-                    "bg": "#2b1424",
-                    "color": "#ffa3d7",
-                    "border": "#ff007f"
+                    "video": "assets/video/v-bandit.mp4",
+                    "fireRate": "3.33 rounds/sec",
+                    "magSize": "6 rounds",
+                    "headDamage": "150 DMG"
                 },
                 {
                     "id": 3,
@@ -218,9 +289,10 @@
                     "price": "2,375 VP",
                     "levels": "4 Upgrade Levels",
                     "image": "assets/images/guardian.png",
-                    "bg": "#2b1424",
-                    "color": "#ffa3d7",
-                    "border": "#ff007f"
+                    "video": "assets/video/v-guardian.mp4",
+                    "fireRate": "5.25 rounds/sec",
+                    "magSize": "12 rounds",
+                    "headDamage": "195 DMG"
                 },
                 {
                     "id": 4,
@@ -229,9 +301,10 @@
                     "price": "2,375 VP",
                     "levels": "4 Upgrade Levels",
                     "image": "assets/images/marshal.png",
-                    "bg": "#2b1424",
-                    "color": "#ffa3d7",
-                    "border": "#ff007f"
+                    "video": "assets/video/v-marshal.mp4",
+                    "fireRate": "1.5 rounds/sec",
+                    "magSize": "5 rounds",
+                    "headDamage": "202 DMG"
                 },
                 {
                     "id": 5,
@@ -240,9 +313,10 @@
                     "price": "5,350 VP",
                     "levels": "Transforming Cards",
                     "image": "assets/images/melee.png",
-                    "bg": "#2b1424",
-                    "color": "#ffa3d7",
-                    "border": "#ff007f"
+                    "video": "assets/video/v-melee.mp4",
+                    "fireRate": "Slash / Thrust",
+                    "magSize": "Infinite",
+                    "headDamage": "Special Animation"
                 }
             ]
         };
@@ -261,20 +335,40 @@
                             <span class="price-badge">◈ ${item.price}</span>
                         </div>
 
-                        <!-- Image -->
-                        <div class="weapon-img-wrapper my-2">
-                            <img src="${item.image}" alt="${item.name}" loading="lazy">
+                        <!-- Image + Video Overlay -->
+                        <div class="weapon-wrapper my-2">
+                            <img src="${item.image}" alt="${item.name}" class="weapon-img" loading="lazy">
+                            <video class="weapon-video" loop playsinline preload="metadata">
+                                <source src="${item.video}" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <!-- Name -->
+                        <h4 class="fw-bold mb-1 text-white" style="letter-spacing: 1.5px; font-size: 1.35rem; font-family: 'Cinzel', serif;">
+                            ${item.name}
+                        </h4>
+
+                        <!-- Stats -->
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">Fire Rate</span>
+                                <span class="stat-val">${item.fireRate}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Magazine</span>
+                                <span class="stat-val">${item.magSize}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Headshot</span>
+                                <span class="stat-val">${item.headDamage}</span>
+                            </div>
                         </div>
 
                         <!-- Details -->
-<h4 class="fw-bold mb-1 text-white" style="letter-spacing: 1.5px; font-size: 1.35rem; font-family: 'Cinzel', serif;">
-    ${item.name}
-</h4>
-
                         <div class="mt-auto pt-3 border-top border-secondary border-opacity-25 text-start">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-white-50 small text-uppercase" style="letter-spacing: 1px;">Features</span>
-                                <span class="text-light small font-monospace">${item.levels}</span>
+                                <span class="small font-monospace" style="color: #ff94cb;">${item.levels}</span>
                             </div>
                         </div>
                     </div>
@@ -283,6 +377,50 @@
         }
 
         document.getElementById("weapon-list").innerHTML = output;
+
+        // Play video on hover
+        const cards = document.querySelectorAll('.weapon-card');
+        const bgVideo = document.getElementById('bg-video');
+
+        bgVideo.muted = true;
+        bgVideo.volume = 0.35;
+
+        function enableAudio() {
+            bgVideo.muted = false;
+            window.removeEventListener('click', enableAudio);
+            window.removeEventListener('keydown', enableAudio);
+        }
+        window.addEventListener('click', enableAudio);
+        window.addEventListener('keydown', enableAudio);
+
+        cards.forEach(card => {
+            const weaponVideo = card.querySelector('.weapon-video');
+            if (!weaponVideo) return;
+
+            weaponVideo.volume = 0.8; 
+
+            card.addEventListener('mouseenter', () => {
+                // pang mute when hover
+                bgVideo.muted = true;
+
+                // video with sound
+                weaponVideo.muted = false;
+                const playPromise = weaponVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {});
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                // Pause and reset hovered video
+                weaponVideo.pause();
+                weaponVideo.currentTime = 0;
+                weaponVideo.muted = true;
+
+                //restore
+                bgVideo.muted = false;
+            });
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
