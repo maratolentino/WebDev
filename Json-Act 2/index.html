@@ -226,6 +226,18 @@
                 font-size: 5.5rem;
             }
         }
+
+        @media (max-width: 767.98px) {
+            .swatch-container {
+                top: 10px;
+                right: 10px;
+                padding: 4px 10px;
+            }
+
+            .content {
+                padding-top: 4.5rem !important;
+            }
+        }
     </style>
 </head>
 
@@ -397,7 +409,7 @@
             const weaponVideo = card.querySelector('.weapon-video');
             if (!weaponVideo) return;
 
-            weaponVideo.volume = 0.8; 
+            weaponVideo.volume = 0.8;
 
             card.addEventListener('mouseenter', () => {
                 // pang mute when hover
@@ -407,7 +419,7 @@
                 weaponVideo.muted = false;
                 const playPromise = weaponVideo.play();
                 if (playPromise !== undefined) {
-                    playPromise.catch(() => {});
+                    playPromise.catch(() => { });
                 }
             });
 
